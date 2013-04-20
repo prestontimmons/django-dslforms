@@ -231,3 +231,17 @@ name: receive_email
 required: False
 widget: checkbox
 ```
+
+# Installation
+
+Install using pip:
+
+```
+pip install django-dslforms
+```
+
+Install from git:
+
+```
+pip install -e git+git://github.com/prestontimmons/django-dslforms.git#egg=django-dslforms
+```
