@@ -1,14 +1,14 @@
+#  coding=utf-8
+
 import unittest
 
 from pyparsing import (
     alphanums,
-    commaSeparatedList,
     Group,
     LineEnd,
     Literal,
     OneOrMore,
     ParseException,
-    printables,
     restOfLine,
     Suppress,
     Word,
@@ -96,10 +96,14 @@ def clean_choice(tokens):
     key = tlist[0]
 
     for choice in tlist[1:]:
+        choice = choice[0].split(",")
+        k = choice[0].strip()
         if len(choice) == 1:
-            cleaned.append((choice[0], choice[0]))
+            v = k
         else:
-            cleaned.append((choice[0], choice[1]))
+            v = choice[1].strip()
+
+        cleaned.append((k, v))
 
     return [[key, cleaned]]
 
@@ -108,7 +112,7 @@ def choice_parser():
     word = Word(alphanums + "_")
 
     choice_start = word("key") + COLON + PIPE
-    choice_options = Group(DASH + commaSeparatedList(printables + " "))
+    choice_options = Group(DASH + restOfLine)
     choices = Group(choice_start + OneOrMore(choice_options))("choices")
     choices.setParseAction(clean_choice)
 
@@ -126,10 +130,11 @@ class ChoiceParserTest(unittest.TestCase):
               - , - Please Choose -
               - M, Male
               - F, Female
+              - à choice
         """)
 
         self.assertEqual(result.asList(),
-            [["choices", [('one', 'one'), ('two', 'two'), ('', '- Please Choose -'), ('M', 'Male'), ('F', 'Female')]]]
+            [["choices", [('one', 'one'), ('two', 'two'), ('', '- Please Choose -'), ('M', 'Male'), ('F', 'Female'), ('à choice', 'à choice')]]]
         )
 
     def test_missing_pipe(self):
