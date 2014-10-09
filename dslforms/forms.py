@@ -54,6 +54,10 @@ def generate_fields(serialized):
         if widget == "email":
             yield field["name"], forms.EmailField(**kwargs)
 
+        if widget == "hidden":
+            kwargs["widget"] = forms.HiddenInput()
+            yield field["name"], forms.CharField(**kwargs)
+
 
 def form_class_factory(fields, base=(forms.BaseForm, )):
     form_fields = dict(generate_fields(fields))
@@ -93,6 +97,18 @@ class FormClassFactoryTest(unittest.TestCase):
             "Please enter your email",
         )
         self.assertEqual(fields["email"].__class__.__name__, "EmailField")
+
+    def test_hidden(self):
+        form_class = form_class_factory([{
+            "max_length": 10,
+            "name": "name",
+            "error": "Please enter your name",
+            "widget": "hidden",
+        }])
+
+        fields = form_class().fields
+
+        self.assertEqual(fields["name"].widget.is_hidden, True)
 
     def test_required(self):
         form_class = form_class_factory([{
