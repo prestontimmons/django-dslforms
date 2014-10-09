@@ -30,8 +30,9 @@ def dslform(request, slug, template_base, save_method, **kwargs):
     if request.method == "POST":
         form = form_class(request.POST)
         if form.is_valid():
-            result = save_method(form, request,
-                template_name=template_name, **kwargs)
+            result = save_method(
+                form, request, template_name=template_name, **kwargs
+            )
             response = redirect(confirm_url)
             response.context_data = dict(
                 form=form,
@@ -41,9 +42,9 @@ def dslform(request, slug, template_base, save_method, **kwargs):
     else:
         form = form_class()
 
-    content = render_node(template, "display", 
-        RequestContext(request, dict(form=form, **kwargs)),
-    )
+    content = render_node(template, "display", RequestContext(
+        request, dict(form=form, **kwargs)
+    ))
 
     if not content:
         raise Exception("Missing display block")

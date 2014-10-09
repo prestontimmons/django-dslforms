@@ -19,7 +19,7 @@ class DslFormTest(TestCase):
             "dslforms/missing-display.html": template_missing_display,
         }
         setup_test_template_loader(templates)
- 
+
     def tearDown(self):
         restore_template_loaders()
 
@@ -97,5 +97,5 @@ def save_method(form, request, **kwargs):
     return "Saved"
 
 
-from dslforms.dsl import FormParserTest
-from dslforms.forms import FormClassFactoryTest
+from dslforms.dsl import FormParserTest  # noqa
+from dslforms.forms import FormClassFactoryTest  # noqa

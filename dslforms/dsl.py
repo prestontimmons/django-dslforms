@@ -81,8 +81,8 @@ def parse(input_string):
     attribute.setParseAction(clean_attribute)
     choices = choice_parser()
 
-    field = Group(header + 
-        OneOrMore(attribute | choices)("attributes")
+    field = Group(
+        header + OneOrMore(attribute | choices)("attributes")
     )
 
     parser = OneOrMore(field).setParseAction(flatten)
@@ -133,13 +133,14 @@ class ChoiceParserTest(unittest.TestCase):
               - à choice
         """)
 
-        self.assertEqual(result.asList(),
-            [["choices", [('one', 'one'), ('two', 'two'), ('', '- Please Choose -'), ('M', 'Male'), ('F', 'Female'), ('à choice', 'à choice')]]]
+        self.assertEqual(
+            result.asList(),
+            [["choices", [('one', 'one'), ('two', 'two'), ('', '- Please Choose -'), ('M', 'Male'), ('F', 'Female'), ('à choice', 'à choice')]]],  # noqa
         )
 
     def test_missing_pipe(self):
         parser = choice_parser()
-        
+
         with self.assertRaisesRegexp(ParseException, 'Expected "|"'):
             parser.parseString("""
                 choices:
@@ -199,8 +200,10 @@ class FormParserTest(unittest.TestCase):
         self.assertEqual(result[0]["name"], "category")
         self.assertEqual(result[0]["required"], True)
         self.assertEqual(result[0]["widget"], "select")
-        self.assertEqual(result[0]["choices"][0],
-            ("", "-- Please Choose --"))
+        self.assertEqual(
+            result[0]["choices"][0],
+            ("", "-- Please Choose --"),
+        )
 
     def test_missing_name(self):
         text = """
@@ -208,8 +211,9 @@ class FormParserTest(unittest.TestCase):
         max_length: 100
         """
 
-        with self.assertRaisesRegexp(ParseException,
-                "Field must include name attribute"):
+        with self.assertRaisesRegexp(
+            ParseException, "Field must include name attribute",
+        ):
             parse(text)
 
     def test_missing_max_length(self):
@@ -219,8 +223,9 @@ class FormParserTest(unittest.TestCase):
         error: Please enter your name
         """
 
-        with self.assertRaisesRegexp(ParseException,
-                "Field must specify max_length"):
+        with self.assertRaisesRegexp(
+            ParseException, "Field must specify max_length",
+        ):
             parse(text)
 
 

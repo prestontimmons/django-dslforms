@@ -64,7 +64,6 @@ def form_class_factory(fields, base=(forms.BaseForm, )):
     return type("Form", base, dict(base_fields=form_fields))
 
 
-
 class FormClassFactoryTest(unittest.TestCase):
 
     def test_charfield(self):
@@ -77,7 +76,8 @@ class FormClassFactoryTest(unittest.TestCase):
         fields = form_class().fields
 
         self.assertEqual(fields["name"].max_length, 100)
-        self.assertEqual(fields["name"].error_messages["required"],
+        self.assertEqual(
+            fields["name"].error_messages["required"],
             "Please enter your name",
         )
         self.assertEqual(fields["name"].required, True)
@@ -93,7 +93,8 @@ class FormClassFactoryTest(unittest.TestCase):
         fields = form_class().fields
 
         self.assertEqual(fields["email"].max_length, 100)
-        self.assertEqual(fields["email"].error_messages["required"],
+        self.assertEqual(
+            fields["email"].error_messages["required"],
             "Please enter your email",
         )
         self.assertEqual(fields["email"].__class__.__name__, "EmailField")
@@ -135,10 +136,12 @@ class FormClassFactoryTest(unittest.TestCase):
 
         fields = form_class().fields
 
-        self.assertEqual(fields["gender"].choices[0],
+        self.assertEqual(
+            fields["gender"].choices[0],
             ("", "-- Please Choose --"),
         )
-        self.assertEqual(fields["gender"].choices[1],
+        self.assertEqual(
+            fields["gender"].choices[1],
             ("M", "Male"),
         )
 
@@ -155,7 +158,8 @@ class FormClassFactoryTest(unittest.TestCase):
 
         fields = form_class().fields
 
-        self.assertEqual(fields["gender"].choices[0],
+        self.assertEqual(
+            fields["gender"].choices[0],
             ("M", "Male"),
         )
         self.assertEqual(type(fields["gender"].widget), forms.RadioSelect)
@@ -172,7 +176,8 @@ class FormClassFactoryTest(unittest.TestCase):
 
         self.assertEqual(fields["agree"].required, True)
         self.assertEqual(fields["agree"].__class__.__name__, "BooleanField")
-        self.assertEqual(fields["agree"].error_messages["required"],
+        self.assertEqual(
+            fields["agree"].error_messages["required"],
             "You must agree",
         )
 
