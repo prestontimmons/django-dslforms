@@ -6,6 +6,7 @@ def get_node(template, name):
         if node.name == name: 
             return node 
 
+
 def render_node(template, name, context):
     node = get_node(template, name)
     if node:
