@@ -214,6 +214,20 @@ choices: |
   - Other
 ```
 
+**Radio Select Field**
+
+```
+[field]
+name: gender
+error: Please choose a gender
+widget: radio
+choices: |
+  - F, Female
+  - M, Male
+  - O, Other
+initial: F
+```
+
 **Required Checkbox Field**
 
 ```

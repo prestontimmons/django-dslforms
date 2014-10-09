@@ -20,6 +20,15 @@ def generate_fields(serialized):
 
         widget = field.get("widget", "charfield")
 
+        if widget == "radio":
+            kwargs["choices"] = field["choices"]
+            kwargs["widget"] = forms.RadioSelect
+
+            kwargs.pop("max_length", "")
+
+            yield field["name"], forms.ChoiceField(**kwargs)
+            continue
+
         if widget == "select":
             kwargs["choices"] = field["choices"]
 
@@ -113,6 +122,27 @@ class FormClassFactoryTest(unittest.TestCase):
         self.assertEqual(fields["gender"].choices[1],
             ("M", "Male"),
         )
+
+    def test_radio(self):
+        form_class = form_class_factory([{
+            "name": "gender",
+            "choices": [
+                ("", "-- Please Choose --"),
+                ("M", "Male"),
+                ("F", "Female")
+            ],
+            "widget": "radio",
+        }])
+
+        fields = form_class().fields
+
+        self.assertEqual(fields["gender"].choices[0],
+            ("", "-- Please Choose --"),
+        )
+        self.assertEqual(fields["gender"].choices[1],
+            ("M", "Male"),
+        )
+        self.assertEqual(type(fields["gender"].widget), forms.RadioSelect)
 
     def test_checkbox(self):
         form_class = form_class_factory([{
