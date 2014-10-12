@@ -51,7 +51,7 @@ def attributes_single(p):
 
 @pg.production("attribute : ATTRIBUTE")
 def attribute(p):
-    val = p[0].getstr().decode("utf-8").split(":")
+    val = p[0].getstr().split(":")
     return (val[0].strip(), u"".join(val[1:]).strip())
 
 
@@ -87,7 +87,7 @@ def choice_tuples_single(p):
 
 @pg.production("choice_tuple : CHOICE")
 def choice_tuple(p):
-    val = p[0].getstr().strip()[1:].decode("utf-8")
+    val = p[0].getstr().strip()[1:]
 
     if "," not in val:
         val = u"%s, %s" % (val, val)
@@ -178,7 +178,7 @@ def parse(value):
 class FormParserTest(unittest.TestCase):
 
     def test_parser(self):
-        text = """
+        text = u"""
         # comment
 
         [field]
@@ -210,7 +210,7 @@ class FormParserTest(unittest.TestCase):
         self.assertEqual(result[2]["name"], "password")
 
     def test_required_false(self):
-        text = """
+        text = u"""
         [field]
         name: city
         max_length: 80
@@ -223,7 +223,7 @@ class FormParserTest(unittest.TestCase):
         self.assertEqual(result[0]["required"], False)
 
     def test_choices(self):
-        text = """
+        text = u"""
         [field]
         name: category
         required: True
@@ -259,7 +259,7 @@ class FormParserTest(unittest.TestCase):
         )
 
     def test_missing_name(self):
-        text = """
+        text = u"""
         [field]
         max_length: 100
         """
@@ -270,7 +270,7 @@ class FormParserTest(unittest.TestCase):
             parse(text)
 
     def test_missing_max_length(self):
-        text = """
+        text = u"""
         [field]
         name: full_name
         error: Please enter your name
