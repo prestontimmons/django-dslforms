@@ -97,5 +97,5 @@ def save_method(form, request, **kwargs):
     return "Saved"
 
 
-from dslforms.dsl import FormParserTest  # noqa
 from dslforms.forms import FormClassFactoryTest  # noqa
+from dslforms.parser import FormParserTest  # noqa

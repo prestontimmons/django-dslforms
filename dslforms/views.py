@@ -5,8 +5,8 @@ from django.shortcuts import redirect
 from django.template import RequestContext, TemplateDoesNotExist
 from django.template.loader import get_template
 
-from .dsl import parse
 from .forms import form_class_factory
+from .parser import parse
 from .util import render_node
 
 
