@@ -11,7 +11,7 @@ https://github.com/prestontimmons/django-dslforms
 
 setup(
     name="django-dslforms",
-    version="1.1",
+    version="1.1.1",
     author="Preston Timmons",
     author_email="prestontimmons@gmail.com",
     url="https://github.com/prestontimmons/django-dslforms",
